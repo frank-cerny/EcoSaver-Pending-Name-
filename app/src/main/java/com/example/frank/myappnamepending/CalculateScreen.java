@@ -23,6 +23,7 @@ public class CalculateScreen extends AppCompatActivity {
     private EditText MilesPerGallon;
     private EditText distance;
     private TextView Output;
+    private Button btnReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class CalculateScreen extends AppCompatActivity {
         distance = (EditText)findViewById(R.id.Distance);
         Output = (TextView)findViewById(R.id.savedMoney);
         btnCalculate = (Button)findViewById(R.id.buttonCalculate);
+        btnReset = (Button)findViewById(R.id.btn_reset);
 
         // All this executes when the button is pressed, it checks to makes sure there
         // is input in each box then it grabs it and puts it in the variables
@@ -57,6 +59,19 @@ public class CalculateScreen extends AppCompatActivity {
                 moneySaved = (numDistance / numMPG) * numGasPrice;
                 Output.setText("You Saved $" + Double.toString(moneySaved));
 
+            }
+        });
+
+        // This handles the reset button, when clicked all user entered data is erased
+        // in order to put in more numbers easier
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GasPrice.setText("");
+                MilesPerGallon.setText("");
+                distance.setText("");
+                Output.setText("");
             }
         });
     }
