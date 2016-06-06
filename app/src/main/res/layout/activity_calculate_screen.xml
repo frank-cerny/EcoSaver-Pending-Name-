@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.frank.myappnamepending.CalculateScreen"
-    android:transitionGroup="false">
+    android:transitionGroup="true">
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,14 +55,16 @@
         android:textSize="20dp" />
 
     <Button
+        android:textAllCaps="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Calculate "
         android:id="@+id/buttonCalculate"
+        android:layout_marginTop="37dp"
+        android:textSize="20dp"
         android:layout_below="@+id/Distance"
         android:layout_alignRight="@+id/textViewDistance"
-        android:layout_alignEnd="@+id/textViewDistance"
-        android:layout_marginTop="48dp" />
+        android:layout_alignEnd="@+id/textViewDistance" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,6 +76,7 @@
         android:textSize="30dp" />
 
     <EditText
+        android:background="@android:drawable/editbox_background_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
@@ -84,26 +87,29 @@
         android:layout_alignStart="@+id/MPG" />
 
     <EditText
+        android:background="@android:drawable/editbox_background_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/MPG"
-        android:layout_alignBottom="@+id/textViewMPG"
+        android:layout_alignTop="@+id/textViewMPG"
         android:layout_alignLeft="@+id/Price"
         android:layout_alignStart="@+id/Price" />
 
     <EditText
+        android:background="@android:drawable/editbox_background_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/Price"
-        android:layout_above="@+id/textViewMPG"
+        android:layout_alignTop="@+id/textViewPrice"
         android:layout_toRightOf="@+id/textViewTitle"
         android:layout_toEndOf="@+id/textViewTitle" />
 
     <Button
+        android:textAllCaps="false"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,6 +117,7 @@
         android:id="@+id/btn.reset"
         android:layout_alignTop="@+id/buttonCalculate"
         android:layout_toRightOf="@+id/textViewTitle"
-        android:layout_toEndOf="@+id/textViewTitle" />
+        android:layout_toEndOf="@+id/textViewTitle"
+        android:textSize="20dp" />
 
 </RelativeLayout>

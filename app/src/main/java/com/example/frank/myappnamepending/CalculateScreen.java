@@ -1,11 +1,15 @@
 package com.example.frank.myappnamepending;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.*;
+import java.io.*;
 
 import org.w3c.dom.Text;
 
@@ -24,12 +28,12 @@ public class CalculateScreen extends AppCompatActivity {
     private EditText distance;
     private TextView Output;
     private Button btnReset;
+    private String value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculate_screen);
-
 
         // Initialize the variables that take the value of the given input on the screen
 
@@ -57,8 +61,9 @@ public class CalculateScreen extends AppCompatActivity {
                     numDistance = Double.parseDouble(distance.getText().toString());
                 }
                 moneySaved = (numDistance / numMPG) * numGasPrice;
-                Output.setText("You Saved $" + Double.toString(moneySaved));
-
+                Double.toString(moneySaved);
+                value = String.format("You Saved $ %.2f", moneySaved);
+                Output.setText(value);
             }
         });
 
@@ -68,6 +73,9 @@ public class CalculateScreen extends AppCompatActivity {
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                numGasPrice = 0;
+                numMPG = 0;
+                numDistance = 0;
                 GasPrice.setText("");
                 MilesPerGallon.setText("");
                 distance.setText("");
