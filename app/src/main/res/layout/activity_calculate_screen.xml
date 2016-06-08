@@ -25,11 +25,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Gas Price Per Gallon"
         android:id="@+id/textViewPrice"
-        android:layout_below="@+id/textViewTitle"
+        android:layout_marginTop="42dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/unitSwitch"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="46dp"
-        android:textSize="20dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,11 +37,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="MPG of Main Car"
         android:id="@+id/textViewMPG"
-        android:layout_below="@+id/textViewPrice"
+        android:layout_marginTop="47dp"
+        android:textSize="20dp"
+        android:layout_below="@+id/Price"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="52dp"
-        android:textSize="20dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,10 +49,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Distance in Miles"
         android:id="@+id/textViewDistance"
+        android:textSize="20dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:textAllCaps="false"
@@ -119,5 +119,23 @@
         android:layout_toRightOf="@+id/textViewTitle"
         android:layout_toEndOf="@+id/textViewTitle"
         android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/errorMessage"
+        android:layout_below="@+id/savedMoney"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp" />
+
+    <Button
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To INT"
+        android:id="@+id/unitSwitch"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
