@@ -102,7 +102,7 @@ public class CalculateScreen extends AppCompatActivity {
                     // This converts the output saying to Euros for better accesiblity of
                     // international countries
 
-                    if (currentUnit == "US") {
+                    if (currentUnit.equalsIgnoreCase("US")) {
                         value = String.format("You Saved $ %.2f", moneySaved);
                     }
                     else {
