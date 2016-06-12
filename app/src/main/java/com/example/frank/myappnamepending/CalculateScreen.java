@@ -1,5 +1,6 @@
 package com.example.frank.myappnamepending;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import org.w3c.dom.Text;
 
 public class CalculateScreen extends AppCompatActivity {
 
-    // Here I introduce all th variables I will be using in the App, they are mostly self
+    // Here I introduce all the variables I will be using in the App, they are mostly self
     // explanatory.
 
     private double numGasPrice;
@@ -32,7 +33,8 @@ public class CalculateScreen extends AppCompatActivity {
     private TextView CarEfficiency;
     private TextView TextGasPrice;
     private TextView Distance;
-    private String currentUnit;
+    private String currentUnit = "US";
+    private Button toFAQ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class CalculateScreen extends AppCompatActivity {
         CarEfficiency = (TextView)findViewById(R.id.textViewMPG);
         TextGasPrice = (TextView)findViewById(R.id.textViewPrice);
         Distance = (TextView)findViewById(R.id.textViewDistance);
+        toFAQ = (Button)findViewById(R.id.buttonFaq);
 
 
         // This ensures that other countries can use the app, this changes all prompts
@@ -99,7 +102,7 @@ public class CalculateScreen extends AppCompatActivity {
                     moneySaved = (numDistance / numMPG) * numGasPrice;
                     Double.toString(moneySaved);
 
-                    // This converts the output saying to Euros for better accesiblity of
+                    // This converts the output saying to Euros for better accessibility of
                     // international countries
 
                     if (currentUnit.equalsIgnoreCase("US")) {
@@ -135,6 +138,16 @@ public class CalculateScreen extends AppCompatActivity {
                 distance.setText("");
                 Output.setText("");
                 error.setText("");
+            }
+        });
+
+        toFAQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(v.getContext(),FAQscreen.class);
+                startActivity(myIntent);
+
             }
         });
     }

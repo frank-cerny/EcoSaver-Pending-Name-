@@ -138,4 +138,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="\?"
+        android:id="@+id/buttonFaq"
+        android:layout_above="@+id/textViewPrice"
+        android:layout_alignRight="@+id/Price"
+        android:layout_alignEnd="@+id/Price"
+        android:background ="@drawable/round_button"
+        android:textSize="20dp" />
+
 </RelativeLayout>

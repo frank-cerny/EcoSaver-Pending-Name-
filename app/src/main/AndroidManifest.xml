@@ -17,8 +17,10 @@
         </activity>
         <activity android:name=".WelcomeScreen">
 
-            <!-- Maybe redundant, but this helps to change the default activity
-            to the Welcome Screen -->
+            <!--
+            Maybe redundant, but this helps to change the default activity
+            to the Welcome Screen
+            -->
 
             <intent-filter>
                 <action android:name="android.intent.action.LAUNCHER" />
@@ -26,6 +28,7 @@
                 <category android:name="android.intent.category.MAIN" />
             </intent-filter>
         </activity>
+        <activity android:name=".FAQscreen"></activity>
     </application>
 
 </manifest>
