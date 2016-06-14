@@ -120,14 +120,6 @@
         android:layout_toEndOf="@+id/textViewTitle"
         android:textSize="20dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/errorMessage"
-        android:layout_below="@+id/savedMoney"
-        android:layout_centerHorizontal="true"
-        android:textSize="25dp" />
-
     <Button
         android:textAllCaps="false"
         android:layout_width="wrap_content"
@@ -148,5 +140,13 @@
         android:layout_alignEnd="@+id/Price"
         android:background ="@drawable/round_button"
         android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/errorMessage"
+        android:layout_alignTop="@+id/savedMoney"
+        android:layout_centerHorizontal="true"
+        android:textSize="23dp" />
 
 </RelativeLayout>

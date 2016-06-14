@@ -118,7 +118,7 @@ public class CalculateScreen extends AppCompatActivity {
                 // in all three boxes, if not it will promt them to retry and enter values
 
                 else {
-                    error.setText("Error! Please enter values in all the inputs and recalculate!");
+                    error.setText(R.string.errorMessage);
                 }
 
             }

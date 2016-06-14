@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MyAppNamePending</string>
     <string name="WelcomeScreenPurpose">This app was created to calculate how much money can be saved by not driving a car and using alternative methods of transportation. As a disclaimer this app is being done as a summer project and hobby, it is very basic at this point and may contain bugs and look somewhat unpolished. It will be updated as much as possible. Enjoy the app and for more information please refer to the FAQ.</string>
+    <string name="WhatTheAppAimsToDo">As stated in the Welcome Screen this app was created to give users an easy was to calculate how much money can be saved by taking alternative methods of transportation such as walking, biking, etc.</string>
+    <string name="WhyICreatingIt">I am creating this app because I believe that a penny saved is a penny earned, especially when the environment and our bodies benefit as well. It may not seem like you save that much, but it adds up over time, maybe put that money saved towards something else too. One day when gas becomes so expensive, everyone bikes to work maybe this app will be useful.</string>
+    <string name="Who">I am an 18 year old with a passion for programming a will to learn as much as I can. This app is a summer project and I have devoted many hours to it. It may be buggy, and lack features/looks, but I will take all the feedback I can and continue to update and innovate the app as much as I can. I hope someone can get some use out it after all. Send feedback to fcawesome33@gmail.com, I\'d be happy to hear it. Thank You!</string>
+    <string name="errorMessage">Error! Please complete all inputs for an accurate calculation.</string>
 </resources>
