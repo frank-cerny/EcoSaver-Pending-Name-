@@ -1,15 +1,21 @@
 package com.example.frank.myappnamepending;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import java.lang.reflect.GenericArrayType;
 
 public class CalculateScreen extends AppCompatActivity {
 
@@ -35,6 +41,7 @@ public class CalculateScreen extends AppCompatActivity {
     private TextView Distance;
     private String currentUnit = "US";
     private Button toFAQ;
+    private Spinner Menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +62,39 @@ public class CalculateScreen extends AppCompatActivity {
         TextGasPrice = (TextView)findViewById(R.id.textViewPrice);
         Distance = (TextView)findViewById(R.id.textViewDistance);
         toFAQ = (Button)findViewById(R.id.buttonFaq);
+        Menu = (Spinner) findViewById(R.id.spinnerMenu);
 
 
+        // Create an array adapter that allows me to input my own array into a spinner
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.MainMenu_array,
+                android.R.layout.simple_spinner_item);
+
+        // Specify the layout when the list of choices appears
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the settings to the spinner
+
+        Menu.setAdapter(adapter);
+
+        Menu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String Choice = parent.getItemAtPosition(position).toString();
+
+                // An item was selected, now I get to change activities based on that
+
+                if (Choice.equalsIgnoreCase("FAQ")) {
+
+                    Intent myIntent = new Intent(view.getContext(),FAQscreen.class);
+                    startActivity(myIntent);
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+        }
+});
         // This ensures that other countries can use the app, this changes all prompts
         // into a KM and liter based system, the button acts as a toggle, only EU for now
 

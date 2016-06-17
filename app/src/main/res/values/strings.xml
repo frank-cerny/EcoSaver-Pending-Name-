@@ -5,4 +5,14 @@
     <string name="WhyICreatingIt">I am creating this app because I believe that a penny saved is a penny earned, especially when the environment and our bodies benefit as well. It may not seem like you save that much, but it adds up over time, maybe put that money saved towards something else too. One day when gas becomes so expensive, everyone bikes to work maybe this app will be useful.</string>
     <string name="Who">I am an 18 year old with a passion for programming a will to learn as much as I can. This app is a summer project and I have devoted many hours to it. It may be buggy, and lack features/looks, but I will take all the feedback I can and continue to update and innovate the app as much as I can. I hope someone can get some use out it after all. Send feedback to fcawesome33@gmail.com, I\'d be happy to hear it. Thank You!</string>
     <string name="errorMessage">Error! Please complete all inputs for an accurate calculation.</string>
+        <string-array name="MainMenu_array">
+            <item>Calculator</item>
+            <item>FAQ</item>
+            <item>News</item>
+        </string-array>
+        <string-array name="FaqMenu_array">
+            <item>FAQ</item>
+            <item>Calculator</item>
+            <item>News</item>
+        </string-array>
 </resources>
