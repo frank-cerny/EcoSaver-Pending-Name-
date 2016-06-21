@@ -1,6 +1,8 @@
 package com.example.frank.myappnamepending;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,11 +10,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class FAQscreen extends AppCompatActivity {
 
+    private double totalMoneySaved;
+    private double totalDistance;
+    private double moneySaved;
+    private double distance;
     private Button backToCalc;
     private Spinner MenuFaq;
+    private TextView Output;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +32,7 @@ public class FAQscreen extends AppCompatActivity {
 
         backToCalc = (Button)findViewById(R.id.buttonBack);
         MenuFaq = (Spinner)findViewById(R.id.spinnerMenuFaq);
+        Output = (TextView)findViewById(R.id.DBOutput);
 
         // Create an array adapter that allows me to input my own array into a spinner
 
@@ -62,5 +74,24 @@ public class FAQscreen extends AppCompatActivity {
 
             }
         });
+
+        //////////////////////////// Database Stuff
+
+        DatabaseOperations DOP = new DatabaseOperations(ctx);
+        Cursor CR = DOP.getInformation(DOP);
+        CR.moveToFirst();
+
+        do {
+            distance = CR.getDouble(0);
+            moneySaved = CR.getDouble(1);
+
+            totalDistance = totalDistance + distance;
+            totalMoneySaved = totalMoneySaved + moneySaved;
+
+        }while(CR.moveToNext());
+
+        Output.setText("You traveled a total distance of " + totalDistance + "And saved a total of" +
+                totalMoneySaved);
+        ///////////////////////////
     }
 }

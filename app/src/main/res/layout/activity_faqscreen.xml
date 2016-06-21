@@ -79,11 +79,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinnerMenuFaq"
         android:spinnerMode="dropdown"
+        android:background="#a14141"
         android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textViewHeader1"
+        android:layout_toEndOf="@+id/textViewHeader1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hopefully this prints"
+        android:id="@+id/DBOutput"
+        android:layout_alignTop="@+id/spinnerMenuFaq"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="60dp"
-        android:layout_marginStart="60dp"
-        android:background="#a14141" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.frank.myappnamepending;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public class CalculateScreen extends AppCompatActivity {
     private String currentUnit = "US";
     private Button toFAQ;
     private Spinner Menu;
+    Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,6 @@ public class CalculateScreen extends AppCompatActivity {
         Distance = (TextView)findViewById(R.id.textViewDistance);
         toFAQ = (Button)findViewById(R.id.buttonFaq);
         Menu = (Spinner) findViewById(R.id.spinnerMenu);
-
 
         // Create an array adapter that allows me to input my own array into a spinner
 
@@ -133,9 +134,17 @@ public class CalculateScreen extends AppCompatActivity {
                         && distance.getText().toString().length() > 0) {
 
                     error.setText("");
+
                     numGasPrice = Double.parseDouble(GasPrice.getText().toString());
                     numMPG = Double.parseDouble(MilesPerGallon.getText().toString());
                     numDistance = Double.parseDouble(distance.getText().toString());
+
+                    //////////////////////////// Database Insertion
+
+                    DatabaseOperations DB = new DatabaseOperations(ctx);
+                    DB.putInformation(DB, numDistance, moneySaved);
+
+                    ////////////////////////////
 
                     moneySaved = (numDistance / numMPG) * numGasPrice;
                     Double.toString(moneySaved);
