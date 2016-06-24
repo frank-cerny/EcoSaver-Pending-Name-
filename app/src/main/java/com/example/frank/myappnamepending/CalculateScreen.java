@@ -139,6 +139,8 @@ public class CalculateScreen extends AppCompatActivity {
                     numMPG = Double.parseDouble(MilesPerGallon.getText().toString());
                     numDistance = Double.parseDouble(distance.getText().toString());
 
+                    moneySaved = (numDistance / numMPG) * numGasPrice;
+
                     //////////////////////////// Database Insertion
 
                     DatabaseOperations DB = new DatabaseOperations(ctx);
@@ -146,7 +148,6 @@ public class CalculateScreen extends AppCompatActivity {
 
                     ////////////////////////////
 
-                    moneySaved = (numDistance / numMPG) * numGasPrice;
                     Double.toString(moneySaved);
 
                     // This converts the output saying to Euros for better accessibility of
@@ -162,7 +163,7 @@ public class CalculateScreen extends AppCompatActivity {
                 }
 
                 // This is a basic validation to make sure that the user entered values
-                // in all three boxes, if not it will promt them to retry and enter values
+                // in all three boxes, if not it will prompt them to retry and enter values
 
                 else {
                     error.setText(R.string.errorMessage);

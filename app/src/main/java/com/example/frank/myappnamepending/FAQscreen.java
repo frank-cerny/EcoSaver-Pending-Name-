@@ -24,6 +24,7 @@ public class FAQscreen extends AppCompatActivity {
     private Spinner MenuFaq;
     private TextView Output;
     Context ctx;
+    private Button DeleteDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class FAQscreen extends AppCompatActivity {
         backToCalc = (Button)findViewById(R.id.buttonBack);
         MenuFaq = (Spinner)findViewById(R.id.spinnerMenuFaq);
         Output = (TextView)findViewById(R.id.DBOutput);
+        DeleteDB = (Button)findViewById(R.id.buttonDBWipe);
 
         // Create an array adapter that allows me to input my own array into a spinner
 
@@ -75,23 +77,50 @@ public class FAQscreen extends AppCompatActivity {
             }
         });
 
+        // All Database Info is wiped here, mostly for debugging purposes
+
+        DeleteDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // No clue what getApplicationContext Does but hey it works
+
+                DatabaseOperations SQ = new DatabaseOperations(getApplicationContext());
+                SQ.deleteDatabase();
+                Output.setText("All Records Deleted!");
+            }
+        });
+
         //////////////////////////// Database Stuff
 
-        DatabaseOperations DOP = new DatabaseOperations(ctx);
+        DatabaseOperations DOP = new DatabaseOperations(this);
         Cursor CR = DOP.getInformation(DOP);
-        CR.moveToFirst();
 
-        do {
-            distance = CR.getDouble(0);
-            moneySaved = CR.getDouble(1);
+        // Check if the database exists first so that it doesn't return null
 
-            totalDistance = totalDistance + distance;
-            totalMoneySaved = totalMoneySaved + moneySaved;
+        if (CR.moveToFirst()) {
 
-        }while(CR.moveToNext());
+            CR.moveToFirst();
 
-        Output.setText("You traveled a total distance of " + totalDistance + "And saved a total of" +
-                totalMoneySaved);
-        ///////////////////////////
+            do {
+                distance = CR.getDouble(0);
+                moneySaved = CR.getDouble(1);
+
+                totalDistance = totalDistance + distance;
+                totalMoneySaved = totalMoneySaved + moneySaved;
+
+            } while (CR.moveToNext());
+
+            String distanceFormatted = String.format("You traveled a totlal distance of %.2f",totalDistance);
+            String savedFormatted = String.format("And saved a total of %.2f", totalMoneySaved);
+
+            //Output.setText("You traveled a total distance of " + totalDistance + " And saved a total of " +
+                    //totalMoneySaved);
+
+            Output.setText(distanceFormatted + " " + savedFormatted);
+
+            ///////////////////////////
+        }
+
     }
 }
