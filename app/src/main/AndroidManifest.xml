@@ -28,7 +28,8 @@
                 <category android:name="android.intent.category.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".FAQscreen"></activity>
+        <activity android:name=".FAQscreen" />
+        <activity android:name=".History_Goal"></activity>
     </application>
 
 </manifest>

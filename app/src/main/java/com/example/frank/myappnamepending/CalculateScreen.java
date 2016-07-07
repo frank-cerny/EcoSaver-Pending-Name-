@@ -91,6 +91,11 @@ public class CalculateScreen extends AppCompatActivity {
                     Intent myIntent = new Intent(view.getContext(),FAQscreen.class);
                     startActivity(myIntent);
                 }
+                else if (Choice.equalsIgnoreCase("Goal/History")) {
+
+                    Intent myIntent = new Intent(view.getContext(),History_Goal.class);
+                    startActivity(myIntent);
+                }
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
