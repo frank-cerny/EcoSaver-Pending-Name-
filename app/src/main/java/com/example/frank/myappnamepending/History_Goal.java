@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,9 +21,11 @@ public class History_Goal extends AppCompatActivity {
     private double HistorytotalDistance;
     private double moneySaved;
     private double distance;
+    public double moneyGoal;
     private Spinner MenuHistory;
     private TextView HistoryOutput;
     private TextView GoalOutput;
+    private TextView Goal;
     Context ctx;
     private Button NewGoal;
 
@@ -35,6 +38,7 @@ public class History_Goal extends AppCompatActivity {
         NewGoal = (Button)findViewById(R.id.buttonNewGoal);
         MenuHistory = (Spinner)findViewById(R.id.MenuHistory);
         GoalOutput = (TextView)findViewById(R.id.textViewGoal);
+        Goal = (TextView)findViewById(R.id.textViewGoalOutput);
 
         // Create an array adapter that allows me to input my own array into a spinner
 
@@ -79,15 +83,24 @@ public class History_Goal extends AppCompatActivity {
 
                 // No clue what getApplicationContext Does but hey it works
 
+                HelperMethods Helper = new HelperMethods();
                 DatabaseOperations SQ = new DatabaseOperations(getApplicationContext());
                 SQ.deleteDatabase();
                 GoalOutput.setText("All Records Deleted!");
-                HelperMethods Helper = new HelperMethods();
 
                 // Another example of weird context
 
-                Helper.SetGoal(History_Goal.this);
+                if (moneyGoal > 0) {
 
+                    Goal.setText("Your new goal is " + moneyGoal + ".");
+                }
+                else {
+
+                    moneyGoal = Helper.SetGoal(History_Goal.this);
+                    Log.d("AlertDialogueActivity","" + moneyGoal);
+                    Goal.setText("Your new goal is " + moneyGoal + ".");
+                   // Goal.setText("No Goal Set Yet");
+                }
             }
         });
 
