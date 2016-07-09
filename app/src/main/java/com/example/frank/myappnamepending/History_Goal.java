@@ -1,15 +1,19 @@
 package com.example.frank.myappnamepending;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,13 +25,12 @@ public class History_Goal extends AppCompatActivity {
     private double HistorytotalDistance;
     private double moneySaved;
     private double distance;
-    public double moneyGoal;
     private Spinner MenuHistory;
     private TextView HistoryOutput;
     private TextView GoalOutput;
-    private TextView Goal;
-    Context ctx;
+    private TextView GoalText;
     private Button NewGoal;
+    private double GoalValue = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,10 @@ public class History_Goal extends AppCompatActivity {
         NewGoal = (Button)findViewById(R.id.buttonNewGoal);
         MenuHistory = (Spinner)findViewById(R.id.MenuHistory);
         GoalOutput = (TextView)findViewById(R.id.textViewGoal);
-        Goal = (TextView)findViewById(R.id.textViewGoalOutput);
+        GoalText = (TextView)findViewById(R.id.textViewGoalOutput);
+
+
+        GoalText.setText("No goal set so far, why don't you go ahead and set one now!");
 
         // Create an array adapter that allows me to input my own array into a spinner
 
@@ -81,26 +87,56 @@ public class History_Goal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // No clue what getApplicationContext Does but hey it works
-
-                HelperMethods Helper = new HelperMethods();
                 DatabaseOperations SQ = new DatabaseOperations(getApplicationContext());
                 SQ.deleteDatabase();
                 GoalOutput.setText("All Records Deleted!");
 
-                // Another example of weird context
+                    AlertDialog.Builder builder = new AlertDialog.Builder(History_Goal.this);
 
-                if (moneyGoal > 0) {
+                    // Setting up how the pop up is going to look using external layout file
 
-                    Goal.setText("Your new goal is " + moneyGoal + ".");
-                }
-                else {
+                    LayoutInflater layoutInflater = LayoutInflater.from(History_Goal.this);
+                    View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+                    builder.setView(promptView);
 
-                    moneyGoal = Helper.SetGoal(History_Goal.this);
-                    Log.d("AlertDialogueActivity","" + moneyGoal);
-                    Goal.setText("Your new goal is " + moneyGoal + ".");
-                   // Goal.setText("No Goal Set Yet");
-                }
+                    final EditText editText = (EditText) promptView.findViewById(R.id.editText);
+
+                    // set up dialogue window and the buttons
+
+                    builder.setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+
+                                // If Ok Button is clicked, take value from box
+
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    // This correctly sets Goal to value of text box
+
+                                    GoalValue = Double.parseDouble(editText.getText().toString());
+
+                                    if (GoalValue > 0) {
+                                        GoalText.setText("Your new goal is " + GoalValue + ".");
+                                    }
+                                    else {
+                                        GoalText.setText("Please Reenter a goal larger than 0!");
+                                    }
+                                }
+                            })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Log.d("AlertDialogue", "Cancel Button Clicked");
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // Actually Create the Alert Box
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    Log.d("AlertDialogue", "PopUp Shows up" + GoalValue);
             }
         });
 
@@ -130,9 +166,6 @@ public class History_Goal extends AppCompatActivity {
             String HistoryDistanceFormatted = String.format("You traveled a totlal distance of %.2f",HistorytotalDistance);
             String HistorySavedFormatted = String.format("And saved a total of %.2f", HistorytotalMoneySaved);
             String GoalMoneyFormatted = String.format("You have saved %.2f", totalMoneySaved);
-
-            //Output.setText("You traveled a total distance of " + totalDistance + " And saved a total of " +
-            //totalMoneySaved);
 
             HistoryOutput.setText(HistoryDistanceFormatted + " " + HistorySavedFormatted);
             GoalOutput.setText(GoalMoneyFormatted);
