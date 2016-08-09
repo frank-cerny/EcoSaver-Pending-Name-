@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 public class History_Goal extends AppCompatActivity {
 
+    public static final String PREFS = "examplePrefs";
+
     private double totalDistance;
     private double totalMoneySaved;
     private double HistorytotalMoneySaved;
@@ -28,9 +31,10 @@ public class History_Goal extends AppCompatActivity {
     private Spinner MenuHistory;
     private TextView HistoryOutput;
     private TextView GoalOutput;
-    private TextView GoalText;
     private Button NewGoal;
-    private double GoalValue = 0;
+    private float GoalValue;
+    private boolean bool;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +45,6 @@ public class History_Goal extends AppCompatActivity {
         NewGoal = (Button)findViewById(R.id.buttonNewGoal);
         MenuHistory = (Spinner)findViewById(R.id.MenuHistory);
         GoalOutput = (TextView)findViewById(R.id.textViewGoal);
-        GoalText = (TextView)findViewById(R.id.textViewGoalOutput);
-
-
-        GoalText.setText("No goal set so far, why don't you go ahead and set one now!");
 
         // Create an array adapter that allows me to input my own array into a spinner
 
@@ -81,68 +81,53 @@ public class History_Goal extends AppCompatActivity {
             }
         });
 
-        // All Database Info is wiped here, mostly for debugging purposes and resetting goal
+        // Shared Preferences Stuff
+
+        final SharedPreferences examplePrefs = getSharedPreferences(PREFS, 0);
+        final SharedPreferences.Editor editor = examplePrefs.edit();
+
+        SharedPreferences get = getSharedPreferences(PREFS, 0);
+
+        float userGoalShared = examplePrefs.getFloat("message",0);
+
+        if (userGoalShared > 0) {
+            GoalOutput.setText("You currently have a goal of $ " + userGoalShared);
+        }
+        else {
+            GoalOutput.setText("No current goal, you should set one!");
+        }
+
+        Log.d("SharedPreferneces", "" + userGoalShared);
+
+        // Create a Helper Object
+
+        final HelperMethods Helper = new HelperMethods();
 
         NewGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                // All Database Info is wiped here, mostly for debugging purposes and resetting goal
+
                 DatabaseOperations SQ = new DatabaseOperations(getApplicationContext());
                 SQ.deleteDatabase();
-                GoalOutput.setText("All Records Deleted!");
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(History_Goal.this);
+                // Show alert dialogue and get a goal value
 
-                    // Setting up how the pop up is going to look using external layout file
+               GoalValue = Helper.getYesNoWithExecutionStop("GoalSetter","Set a Goal Please", History_Goal.this);
+               GoalOutput.setText("Your new goal is $ " + GoalValue);
+                editor.putFloat("message", GoalValue);
+                editor.apply();
+                Log.d("RightAfterMethod", "" + GoalValue);
 
-                    LayoutInflater layoutInflater = LayoutInflater.from(History_Goal.this);
-                    View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
-                    builder.setView(promptView);
-
-                    final EditText editText = (EditText) promptView.findViewById(R.id.editText);
-
-                    // set up dialogue window and the buttons
-
-                    builder.setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-
-                                // If Ok Button is clicked, take value from box
-
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    // This correctly sets Goal to value of text box
-
-                                    GoalValue = Double.parseDouble(editText.getText().toString());
-
-                                    if (GoalValue > 0) {
-                                        GoalText.setText("Your new goal is " + GoalValue + ".");
-                                    }
-                                    else {
-                                        GoalText.setText("Please Reenter a goal larger than 0!");
-                                    }
-                                }
-                            })
-                            .setNegativeButton("Cancel",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Log.d("AlertDialogue", "Cancel Button Clicked");
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                    // Actually Create the Alert Box
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    Log.d("AlertDialogue", "PopUp Shows up" + GoalValue);
             }
         });
 
+        Log.d("HelperMethod", "" + Helper.GetGoal());
+
      /////////////////////////////////////// Database Stuff //////////////////////////////////////
 
-        DatabaseOperations DOP = new DatabaseOperations(this);
+        DatabaseOperations DOP = new DatabaseOperations(History_Goal.this);
         Cursor CR = DOP.getInformation(DOP);
 
         // Check if the database exists first so that it doesn't return null
@@ -163,16 +148,18 @@ public class History_Goal extends AppCompatActivity {
             HistorytotalDistance = totalDistance;
             HistorytotalMoneySaved = totalMoneySaved;
 
-            String HistoryDistanceFormatted = String.format("You traveled a totlal distance of %.2f",HistorytotalDistance);
+            String HistoryDistanceFormatted = String.format("You traveled a totlal distance of %.2f", HistorytotalDistance);
             String HistorySavedFormatted = String.format("And saved a total of %.2f", HistorytotalMoneySaved);
-            String GoalMoneyFormatted = String.format("You have saved %.2f", totalMoneySaved);
+            String GoalMoneyFormatted = String.format("You have saved %.2f", totalMoneySaved) +
+                    ("out of your " +
+                            "goal of " + GoalValue + "Which is " + totalMoneySaved / GoalValue + "%");
 
             HistoryOutput.setText(HistoryDistanceFormatted + " " + HistorySavedFormatted);
             GoalOutput.setText(GoalMoneyFormatted);
 
             ///////////////////////////////////////////////////////////////////////////////////
         }
-
     }
 }
+
 
