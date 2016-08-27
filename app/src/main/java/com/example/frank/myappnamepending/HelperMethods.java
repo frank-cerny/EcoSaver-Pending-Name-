@@ -22,6 +22,8 @@ public class HelperMethods {
 
     private float GoalValue;
     double Goal;
+    double moneyHistory;
+    double distanceHistory;
 
     public float getYesNoWithExecutionStop(String title, final String message, Context context) {
         // make a handler that throws a runtime exception when a message is recieved
@@ -65,15 +67,28 @@ public class HelperMethods {
         return GoalValue;
     }
 
-    public void SetGoal(Double UserGoal) {
+    public void SetHistory(Double HistoryMoney, Double HistoryDistance) {
 
-        this.Goal = UserGoal;
-        Log.d("InsideMethod", "GoalValue = " + UserGoal);
+        this.distanceHistory = HistoryDistance;
+        this.moneyHistory = HistoryMoney;
+
 
     }
-    public Double GetGoal () {
+    public String GetHistoryString () {
 
-        return Goal;
+        String HistoryOutput = ("You have traveled a total distance of " + this.distanceHistory +
+        " and saved a total of $ " + this.moneyHistory);
+
+        return HistoryOutput;
+    }
+    public double GetHistoryMoney () {
+
+        Log.d("InsideGetHistoryMoney","" + moneyHistory);
+        return moneyHistory;
+    }
+    public double GetHistoryDistance () {
+
+        return distanceHistory;
     }
 
 }

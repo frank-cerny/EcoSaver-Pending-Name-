@@ -148,8 +148,11 @@ public class CalculateScreen extends AppCompatActivity {
 
                     //////////////////////////// Database Insertion
 
+                    DBhandler2 AR = new DBhandler2(ctx);
                     DatabaseOperations DB = new DatabaseOperations(ctx);
                     DB.putInformation(DB, numDistance, moneySaved);
+                    AR.putInformation(AR,numDistance, moneySaved);
+
 
                     ////////////////////////////
 
