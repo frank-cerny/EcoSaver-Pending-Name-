@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MyAppNamePending.iml" filepath="$PROJECT_DIR$/MyAppNamePending.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EcoSaver-Pending-NameMaster20160826.iml" filepath="$PROJECT_DIR$/EcoSaver-Pending-NameMaster20160826.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

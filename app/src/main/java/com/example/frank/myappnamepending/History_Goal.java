@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,8 @@ public class History_Goal extends AppCompatActivity {
 
     private double totalDistance;
     private double totalMoneySaved;
-    private double HistorytotalMoneySaved;
-    private double HistorytotalDistance;
+    public double HistorytotalMoneySaved;
+    public double HistorytotalDistance;
     private double moneySaved;
     private double distance;
     private Spinner MenuHistory;
@@ -34,21 +35,37 @@ public class History_Goal extends AppCompatActivity {
     private Button NewGoal;
     private float GoalValue;
     private boolean bool;
-
+    private String HistoryDistanceFormatted;
+    private String HistorySavedFormatted;
+    private String GoalMoneyFormatted;
+    private double distance1;
+    private double moneySaved1;
+    private Button ClearHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history__goal);
 
-        HistoryOutput = (TextView)findViewById(R.id.textViewHistory);
-        NewGoal = (Button)findViewById(R.id.buttonNewGoal);
-        MenuHistory = (Spinner)findViewById(R.id.MenuHistory);
-        GoalOutput = (TextView)findViewById(R.id.textViewGoal);
+        ClearHistory = (Button) findViewById(R.id.buttonClearHistory);
+        HistoryOutput = (TextView) findViewById(R.id.textViewHistory);
+        NewGoal = (Button) findViewById(R.id.buttonNewGoal);
+        MenuHistory = (Spinner) findViewById(R.id.MenuHistory);
+        GoalOutput = (TextView) findViewById(R.id.textViewGoal);
+
+        // Create a Helper Object
+
+        final DBhandler2 DB = new DBhandler2(History_Goal.this);
+        Cursor CR1 = DB.getInformationHistory(DB);
+
+        final HelperMethods Helper = new HelperMethods();
+
+            HistoryOutput.setText("");
 
         // Create an array adapter that allows me to input my own array into a spinner
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.HistoryMenu_array,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.HistoryMenu_array,
                 android.R.layout.simple_spinner_item);
 
         // Specify the layout when the list of choices appears
@@ -88,20 +105,15 @@ public class History_Goal extends AppCompatActivity {
 
         SharedPreferences get = getSharedPreferences(PREFS, 0);
 
-        float userGoalShared = examplePrefs.getFloat("message",0);
+        float userGoalShared = examplePrefs.getFloat("message", 0);
 
         if (userGoalShared > 0) {
             GoalOutput.setText("You currently have a goal of $ " + userGoalShared);
-        }
-        else {
+        } else {
             GoalOutput.setText("No current goal, you should set one!");
         }
 
-        Log.d("SharedPreferneces", "" + userGoalShared);
-
-        // Create a Helper Object
-
-        final HelperMethods Helper = new HelperMethods();
+        Log.d("SharedPreferences", "" + userGoalShared);
 
         NewGoal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,21 +123,28 @@ public class History_Goal extends AppCompatActivity {
 
                 DatabaseOperations SQ = new DatabaseOperations(getApplicationContext());
                 SQ.deleteDatabase();
+                Log.d("HistoryGoalDebug", "" + HistorytotalDistance);
 
                 // Show alert dialogue and get a goal value
 
-               GoalValue = Helper.getYesNoWithExecutionStop("GoalSetter","Set a Goal Please", History_Goal.this);
-               GoalOutput.setText("Your new goal is $ " + GoalValue);
+                GoalValue = Helper.getYesNoWithExecutionStop("GoalSetter", "Set a Goal Please", History_Goal.this);
+                GoalOutput.setText("Your new goal is $ " + GoalValue);
                 editor.putFloat("message", GoalValue);
                 editor.apply();
                 Log.d("RightAfterMethod", "" + GoalValue);
 
             }
         });
+        ClearHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        Log.d("HelperMethod", "" + Helper.GetGoal());
+                HistoryOutput.setText("History data wiped!");
+                DB.deleteDatabase();
+            }
+        });
 
-     /////////////////////////////////////// Database Stuff //////////////////////////////////////
+        /////////////////////////////////////// Database Stuff //////////////////////////////////////
 
         DatabaseOperations DOP = new DatabaseOperations(History_Goal.this);
         Cursor CR = DOP.getInformation(DOP);
@@ -137,27 +156,38 @@ public class History_Goal extends AppCompatActivity {
             CR.moveToFirst();
 
             do {
-                distance = CR.getDouble(0);
-                moneySaved = CR.getDouble(1);
+                 distance = CR.getDouble(0);
+                 moneySaved = CR.getDouble(1);
 
                 totalDistance = totalDistance + distance;
                 totalMoneySaved = totalMoneySaved + moneySaved;
 
             } while (CR.moveToNext());
 
-            HistorytotalDistance = totalDistance;
-            HistorytotalMoneySaved = totalMoneySaved;
-
-            String HistoryDistanceFormatted = String.format("You traveled a totlal distance of %.2f", HistorytotalDistance);
-            String HistorySavedFormatted = String.format("And saved a total of %.2f", HistorytotalMoneySaved);
-            String GoalMoneyFormatted = String.format("You have saved %.2f", totalMoneySaved) +
-                    ("out of your " +
-                            "goal of " + GoalValue + "Which is " + totalMoneySaved / GoalValue + "%");
-
-            HistoryOutput.setText(HistoryDistanceFormatted + " " + HistorySavedFormatted);
+            GoalMoneyFormatted = String.format("You have saved %.2f", totalMoneySaved) +
+                    (" out of your " +
+                            " goal of " + userGoalShared + " Which is " + totalMoneySaved / userGoalShared + "%");
             GoalOutput.setText(GoalMoneyFormatted);
 
-            ///////////////////////////////////////////////////////////////////////////////////
+        }
+        if (CR1.moveToFirst()) {
+
+            CR1.moveToFirst();
+
+            do {
+                distance1 = CR1.getDouble(0);
+                moneySaved1 = CR1.getDouble(1);
+
+                HistorytotalDistance += distance1;
+                HistorytotalMoneySaved += moneySaved1;
+
+            } while (CR1.moveToNext());
+
+            String HistoryFinal = ("Lifetime distance is " + HistorytotalDistance + ". Your " +
+                    "lifetime money saved is $ " + HistorytotalMoneySaved + ".");
+
+            HistoryOutput.setText(HistoryFinal);
+
         }
     }
 }

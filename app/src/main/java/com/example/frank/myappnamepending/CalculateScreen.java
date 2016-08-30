@@ -41,7 +41,6 @@ public class CalculateScreen extends AppCompatActivity {
     private TextView TextGasPrice;
     private TextView Distance;
     private String currentUnit = "US";
-    private Button toFAQ;
     private Spinner Menu;
     Context ctx = this;
 
@@ -63,10 +62,12 @@ public class CalculateScreen extends AppCompatActivity {
         CarEfficiency = (TextView)findViewById(R.id.textViewMPG);
         TextGasPrice = (TextView)findViewById(R.id.textViewPrice);
         Distance = (TextView)findViewById(R.id.textViewDistance);
-        toFAQ = (Button)findViewById(R.id.buttonFaq);
         Menu = (Spinner) findViewById(R.id.spinnerMenu);
 
-        // Create an array adapter that allows me to input my own array into a spinner
+        ///////////////////////////////// Array Adapter Menu /////////////////////////////////////
+
+        // Create an array adapter that allows me to input my own array into a spinner which allows
+        // me to create a drop down box menu
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.MainMenu_array,
                 android.R.layout.simple_spinner_item);
@@ -88,7 +89,9 @@ public class CalculateScreen extends AppCompatActivity {
 
                 if (Choice.equalsIgnoreCase("FAQ")) {
 
-                    Intent myIntent = new Intent(view.getContext(),FAQscreen.class);
+                    // Intent is literally an intention to do something or go to another activity
+
+                    Intent myIntent = new Intent(view.getContext(),AppPreferences.class);
                     startActivity(myIntent);
                 }
                 else if (Choice.equalsIgnoreCase("Goal/History")) {
@@ -101,6 +104,9 @@ public class CalculateScreen extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
         }
 });
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
         // This ensures that other countries can use the app, this changes all prompts
         // into a KM and liter based system, the button acts as a toggle, only EU for now
 
@@ -146,17 +152,27 @@ public class CalculateScreen extends AppCompatActivity {
 
                     moneySaved = (numDistance / numMPG) * numGasPrice;
 
-                    //////////////////////////// Database Insertion
+                    //////////////////////////// Database Insertion ///////////////////////////////
 
+                    DBhandler2 AR = new DBhandler2(ctx);
                     DatabaseOperations DB = new DatabaseOperations(ctx);
+
+                    // Stores Goal Data in Database
+
                     DB.putInformation(DB, numDistance, moneySaved);
 
-                    ////////////////////////////
+                    // Stores same data except in the historical table
+
+                    AR.putInformation(AR,numDistance, moneySaved);
+
+
+                    ///////////////////////////////////////////////////////////////////////////////
 
                     Double.toString(moneySaved);
 
                     // This converts the output saying to Euros for better accessibility of
-                    // international countries
+                    // international countries based on what the ChangeUnit button is currently
+                    // displaying (will be phased out with new settings activity)
 
                     if (currentUnit.equalsIgnoreCase("US")) {
                         value = String.format("You Saved $ %.2f", moneySaved);
@@ -178,7 +194,7 @@ public class CalculateScreen extends AppCompatActivity {
         });
 
         // This handles the reset button, when clicked all user entered data is erased
-        // in order to put in more numbers easier
+        // in order to put in different inputs
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,16 +207,6 @@ public class CalculateScreen extends AppCompatActivity {
                 distance.setText("");
                 Output.setText("");
                 error.setText("");
-            }
-        });
-
-        toFAQ.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent myIntent = new Intent(v.getContext(),FAQscreen.class);
-                startActivity(myIntent);
-
             }
         });
     }

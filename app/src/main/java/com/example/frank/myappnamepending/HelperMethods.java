@@ -4,15 +4,19 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 /**
  * Created by Frank on 7/6/2016.
@@ -22,6 +26,8 @@ public class HelperMethods {
 
     private float GoalValue;
     double Goal;
+    double moneyHistory;
+    double distanceHistory;
 
     public float getYesNoWithExecutionStop(String title, final String message, Context context) {
         // make a handler that throws a runtime exception when a message is recieved
@@ -65,15 +71,27 @@ public class HelperMethods {
         return GoalValue;
     }
 
-    public void SetGoal(Double UserGoal) {
+    public void SetHistory(Double HistoryMoney, Double HistoryDistance) {
 
-        this.Goal = UserGoal;
-        Log.d("InsideMethod", "GoalValue = " + UserGoal);
+        this.distanceHistory = HistoryDistance;
+        this.moneyHistory = HistoryMoney;
+
 
     }
-    public Double GetGoal () {
+    public String GetHistoryString () {
 
-        return Goal;
+        String HistoryOutput = ("You have traveled a total distance of " + this.distanceHistory +
+        " and saved a total of $ " + this.moneyHistory);
+
+        return HistoryOutput;
     }
+    public double GetHistoryMoney () {
 
+        Log.d("InsideGetHistoryMoney","" + moneyHistory);
+        return moneyHistory;
+    }
+    public double GetHistoryDistance () {
+
+        return distanceHistory;
+    }
 }

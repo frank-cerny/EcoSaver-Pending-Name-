@@ -29,7 +29,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".FAQscreen" />
-        <activity android:name=".History_Goal"></activity>
+        <activity android:name=".History_Goal" />
+        <activity android:name=".AppPreferences"
+            android:label="Settings"
+            android:parentActivityName=".CalculateScreen" />
     </application>
 
 </manifest>

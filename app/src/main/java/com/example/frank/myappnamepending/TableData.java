@@ -20,4 +20,11 @@ public class TableData {
         public static final String DATABASE_NAME = "AppDB";
         public static final String TABLE_NAME = "calculatorData";
     }
+
+    public static class HistoryTableInfo implements BaseColumns {
+        public static final String HISTORYMONEY = "historyMoneySaved";
+        public static final String HISTORYDISTANCE = "historyDistance";
+        public static final String DATABASE_NAME_HISTORY = "historicValues";
+        public static final String TABLE_NAME_HISTORY = "historicData";
+    }
 }
